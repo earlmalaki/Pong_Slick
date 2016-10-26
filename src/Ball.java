@@ -1,3 +1,10 @@
+/**
+ * Earl Timothy D. Malaki
+ * BSCS - II
+ * CMSC22 - OOP
+ *
+ */
+
 import java.awt.*;
 
 public class Ball {

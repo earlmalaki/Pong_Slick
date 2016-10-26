@@ -1,3 +1,10 @@
+/**
+ * Earl Timothy D. Malaki
+ * BSCS - II
+ * CMSC22 - OOP
+ *
+ */
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.openal.Audio;
 
@@ -6,9 +13,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by Earl on 22/10/2016.
- */
+
 public class PingPong extends BasicGame{
 
     private Audio BallBounceSFX;
