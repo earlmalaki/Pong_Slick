@@ -1,6 +1,8 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.openal.Audio;
 
+import javax.swing.*;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,6 +12,8 @@ import java.util.logging.Logger;
 public class PingPong extends BasicGame{
 
     private Audio BallBounceSFX;
+
+    Random rand = new Random();
 
     private Racquet player1;
     private Racquet player2;
@@ -121,12 +125,22 @@ public class PingPong extends BasicGame{
             scoreCheck();
         }
         else if (collisionWith() == 1){     // hit player 1 racquet
-            gameSpeed++;
-            ball.setXa(gameSpeed);
+            if (powerUp() == 3) { // power up bounce
+                ball.setXa(gameSpeed * 3);
+            }
+            else {  // normal bounce
+                gameSpeed++;
+                ball.setXa(gameSpeed);
+            }
         }
         else if (collisionWith() == 2){   // hit player 2 racquet
-            gameSpeed++;
-            ball.setXa(-gameSpeed);
+            if (powerUp() == 3) { // power up bounce
+                ball.setXa(-gameSpeed * 3);
+            }
+            else { // normal bounce
+                gameSpeed++;
+                ball.setXa(-gameSpeed);
+            }
         }
         else
             changeDirection = false;
@@ -147,11 +161,16 @@ public class PingPong extends BasicGame{
 
         g.fillRect(player1.getX(), player1.getY(), player1.getWIDTH(), player1.getHEIGHT());    // draw player1 paddle
         g.fillRect(player2.getX(), player2.getY(), player2.getWIDTH(), player2.getHEIGHT());    // draw player2 paddle
-        g.fillOval(ball.getX(), ball.getY(), ball.getDIAMETER(), ball.getDIAMETER());       // draw ball
+
         g.drawLine(fieldWidthHalf, 0, fieldWidthHalf, fieldHeight);     // draw field divison line
 
         g.drawString(""+scorePlayer1, fieldWidthHalf - 30, 10);
         g.drawString(""+scorePlayer2, fieldWidthHalf + 20, 10);
+
+        if (ball.getXa() == gameSpeed * 3 || ball.getXa() == -gameSpeed * 3){   // if POWER UP
+            g.setColor(Color.orange);       // orange ball means speed boost
+        }
+        g.fillOval(ball.getX(), ball.getY(), ball.getDIAMETER(), ball.getDIAMETER());       // draw ball
 
     }
 
@@ -186,24 +205,33 @@ public class PingPong extends BasicGame{
         }else if (scorePlayer2 == 3){
             winnerPlayer = 2;
         }
-        int choice = 0;
+        int choice = 3;
         if (winnerPlayer == 1){
             // Implement message, and replay prompt
+            choice = JOptionPane.showConfirmDialog(null, "Player 1 won!\nPlay again?", "Prompt", JOptionPane.YES_NO_OPTION);
         }
         else if (winnerPlayer == 2){
             // Implement message, and replay prompt
+            choice = JOptionPane.showConfirmDialog(null, "Player 2 won!\nPlay again?", "Prompt", JOptionPane.YES_NO_OPTION);
         }
 
         if (choice == 0) {   // 0 == YES in prompt. PLAY AGAIN
-
-        } else if (choice == 1) {        // 0 == NO in prompt
-
+            scorePlayer1 = 0;
+            scorePlayer2 = 0;
+            gameSpeed = 2;
+        } else if (choice == 1) {        // 1 == NO in prompt
+            System.exit(0);
         }
 
 
     }
 
-
+    // Random power up
+    // Power up is a ball bounce speed boost
+    // A return of 3 means power up bounce, else normal bounce
+    public int powerUp(){
+        return rand.nextInt(4); // return random from 0 to 3
+    }
 
 
 
