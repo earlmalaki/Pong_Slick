@@ -2,6 +2,9 @@
 
 An iteration of basic PingPong game made using Slick2D library for Java.
 
+This iteration aims to solve the responsiveness issues with Java KeyListener from the original game linked below:
+
+Pong repo: https://github.com/earlmalaki/Pong
 
 Left racquet represents Player 1.
 
